@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="books">
+        <item>creazy java</item>
+        <item>creazy english</item>
+        <item>creazy XML</item>
+        <item>creazy JAVASCRIPT</item>
+        <item>creazy android</item>
+    </string-array>
+</resources>
