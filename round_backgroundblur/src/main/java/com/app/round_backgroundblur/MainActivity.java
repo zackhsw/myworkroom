@@ -1,20 +1,22 @@
-package com.app.filepersistencetest;
+package com.app.round_backgroundblur;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private EditText edit;
 
@@ -22,8 +24,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        edit = (EditText) findViewById(R.id.edit);
+
+        ImageView targetView = (ImageView) findViewById(R.id.image2);
+        Glide.with(this).
+                load(R.drawable.blur).
+                asBitmap().
+                transform(new BlurTransformation(this)).
+                into(targetView);//高斯模糊处理
+
     }
+
 
     @Override
     protected void onDestroy() {
@@ -54,28 +64,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String load(){
+    public String load() {
         FileInputStream in = null;
         BufferedReader reader = null;
-        StringBuilder content  = new StringBuilder();
-        try{
+        StringBuilder content = new StringBuilder();
+        try {
             in = openFileInput("data");
             reader = new BufferedReader(new InputStreamReader(in));
             String line = "";
             while ((line = reader.readLine()) != null) {
                 content.append(line);
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             if (reader != null) {
-                try{
+                try {
                     reader.close();
-                }catch(IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }return content.toString();
+        }
+        return content.toString();
     }
 
 
